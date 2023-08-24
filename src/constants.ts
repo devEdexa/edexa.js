@@ -5,3 +5,4 @@ export enum Standard {
     ERC721,
     ERC1155
 }
+

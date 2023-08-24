@@ -1,5 +1,7 @@
 import { ethers } from "ethers"; 
 
-import { Standard } from "./constants.js";
+import { Standard } from "./constants";
 
-console.log("df");
+// let x : Standard = Standard.ERC20;
+
+console.log(Standard);
