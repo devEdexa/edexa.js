@@ -1,1 +1,1 @@
-# edexa-s-dev
+# edexajs-dev
