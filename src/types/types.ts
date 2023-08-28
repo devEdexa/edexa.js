@@ -4,11 +4,9 @@ export enum Standard {
     ERC1155
 }
 
-interface x{
 
-    x:string;
 
-}
+
 
 class ERC20{
 
