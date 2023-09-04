@@ -1,1 +1,1 @@
-export * from "../src/classes/edexaClient"
+export * from "./classes/EdexaClient"
