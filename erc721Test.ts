@@ -10,14 +10,18 @@ let pvtKey2 = "1b1545266a6e55c28553750b95fb59cb3be71ff3a7092a257d2b7f85126da47e"
 let signer = edexaClient.createWalletSigner(pvtKey1)
 // let signer = edexaClient.createProviderSigner(window.ethereum)
 
-let erc721 = edexaClient.getERC721Instance("0x073dC276CE7f0bA47a2EB6046DE0ca84582d2075");
 
-//read test
+    // let contract = await edexaClient.createContractERC721({name : 'gautam',symbol : 'GTM'},signer)
+    // console.log(contract.address);
+
+let erc721 = edexaClient.getERC721Instance("0x7a4e792BdcE918695D8680f0FDcD1506FE6bB5Cc");
+
+// //read test
 console.log(await erc721.getBalance("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"),"<<<<<<First account");
 console.log(await erc721.getBalance("0x2c360D20cE6b3D8b466511eF093C9177c3817B94"),"<<<<<<Second account");
-console.log(await erc721.getApproved("1"));
-console.log(await erc721.ownerOf("1"));
-console.log(await erc721.tokenURI("1"));
+console.log(await erc721.getApproved("0"));
+console.log(await erc721.ownerOf("0"));
+console.log(await erc721.tokenURI("0"));
 
 
 //write test

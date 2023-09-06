@@ -1,21 +1,15 @@
-export enum Standard {
-    ERC20,
-    ERC721,
-    ERC1155
+export type erc20ArgType = {
+    name : string,
+    symbol : string,
+    supply : Number
 }
 
 
-
-
-
-class ERC20{
-
+export type erc721ArgType = {
+    name : string,
+    symbol : string,
 }
 
-class ERC721{
-
-}
-
-class ERC1155{
-
+export type erc1155ArgType = {
+    uri : string
 }
