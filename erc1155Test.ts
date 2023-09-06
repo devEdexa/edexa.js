@@ -20,9 +20,16 @@ console.log(await erc1155.getBalance("0x2c360D20cE6b3D8b466511eF093C9177c3817B94
 console.log(await erc1155.getUri("1"));
 
 //write test
-// console.log(await erc1155.mint("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",'0','12',undefined,signer));
+console.log(await erc1155.mint("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",'0','10000000000',undefined,signer));
 // console.log(await erc1155.mintBatch("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",['0',"1"],['12','12'],undefined,signer));
 // console.log(await erc1155.safeTransferFrom("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","0x2c360D20cE6b3D8b466511eF093C9177c3817B94","1","2",undefined,signer));
+
+
+console.log(await erc1155.getBalance("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","0"),"<<<<<< account 1, id 0");
+console.log(await erc1155.getBalance("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","1"),"<<<<<< account 1, id 1");
+console.log(await erc1155.getBalance("0x2c360D20cE6b3D8b466511eF093C9177c3817B94","0"),"<<<<<< account 2, id 0");
+console.log(await erc1155.getBalance("0x2c360D20cE6b3D8b466511eF093C9177c3817B94","1"),"<<<<<< account 2 , id 1");
+console.log(await erc1155.getUri("1"));
 
 }
 
