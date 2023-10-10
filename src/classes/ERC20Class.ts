@@ -1,6 +1,7 @@
 import { Contract, ethers } from "ethers";
 import { relative } from "path";
 import abi from "../abi/ERC20-Abi.json";
+import { concat } from "ethers/lib/utils";
 
 export interface ERC20Interface {
   rpc: string;
@@ -25,7 +26,7 @@ export class ERC20 implements ERC20Interface {
 
   constructor(address: string, rpc: string, provider?: any) {
     this.address = address;
-    
+
     // Create an Ethereum provider based on the input or use a JsonRpcProvider
     this.rpc = rpc;
     if (provider != undefined)
@@ -37,13 +38,11 @@ export class ERC20 implements ERC20Interface {
 
   //helper functions
 
-
   // Create a read-only contract instance
   getContractInstance() {
     let contract = new ethers.Contract(this.address, abi, this.provider);
     return contract;
   }
-
 
   // Create a contract instance for actions (requires a signer)
   getActionContractInstance(signer: any) {
@@ -53,7 +52,6 @@ export class ERC20 implements ERC20Interface {
 
   //read function
 
-  
   /**
    * Fetch the balance of an address.
    * @param {string} userAddress - The address of the user.
@@ -65,7 +63,7 @@ export class ERC20 implements ERC20Interface {
     return res.toString();
   }
 
-   /**
+  /**
    * Fetch the allowance for a spender on behalf of an owner.
    * @param {string} owner - The owner's address.
    * @param {string} spender - The spender's address.
@@ -78,8 +76,88 @@ export class ERC20 implements ERC20Interface {
   }
 
   //action function
+  /**
+   * Burn a specific amount of tokens.
+   * @param {string} amount - The amount of tokens to burn.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async burn(amount: string, signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.burn(amount);
+    return res.toString();
+  }
 
+  /**
+   * Burn a specific amount of tokens from a specific address.
+   * @param {string} from - The address from which to burn tokens.
+   * @param {string} amount - The amount of tokens to burn.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async burnFrom(from: string, amount: string, signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.burnFrom(from, amount);
+    return res.toString();
+  }
 
+  /**
+   * Mint a specific amount of tokens and send them to a recipient.
+   * @param {string} to - The address to which tokens will be minted.
+   * @param {string} amount - The amount of tokens to mint.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async mint(to: string, amount: string, signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.mint(to, amount);
+    return res.toString();
+  }
+
+  /**
+   * Pause the contract.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async pause(signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.pause();
+    return res.toString();
+  }
+
+  /**
+   * Unpause the contract.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async unpause(signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.unpause();
+    return res.toString();
+  }
+
+  /**
+   * Renounce ownership of the contract.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async renounceOwnership(signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.renounceOwnership();
+    return res.toString();
+  }
+
+  /**
+   * Transfer ownership of the contract to a new address.
+   * @param {string} to - The address to which ownership will be transferred.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+  async transferOwnership(to: string, signer: any): Promise<string> {
+    let contract = this.getActionContractInstance(signer);
+    let res = await contract.transferOwnership(to);
+    return res.toString();
+  }
   /**
    * Approve a spender to spend a specific amount on your behalf.
    * @param {string} userAddress - Your address.
@@ -93,7 +171,7 @@ export class ERC20 implements ERC20Interface {
     return res.toString();
   }
 
-   /**
+  /**
    * Transfer a specific amount to a recipient.
    * @param {string} userAddress - Your address.
    * @param {string} amount - The amount to transfer.
@@ -106,8 +184,7 @@ export class ERC20 implements ERC20Interface {
     return res.toString();
   }
 
-
-   /**
+  /**
    * Transfer a specific amount from one address to another.
    * @param {string} from - The address to transfer from.
    * @param {string} to - The address to transfer to.

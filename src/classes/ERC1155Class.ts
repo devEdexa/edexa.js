@@ -57,7 +57,7 @@ export class ERC1155 implements ERC1155Interface {
   async getBalance(userAddress: string, id: string) {
     let contract = this.getContractInstance();
     let res = await contract.balanceOf(userAddress, id);
-    return res.toString();
+    return res;
   }
 
   /**
@@ -71,8 +71,17 @@ export class ERC1155 implements ERC1155Interface {
     return res.toString();
   }
 
-  //action function
 
+
+  async getbBalanceOfBatch(address:string , id: string[]) {
+    let contract = this.getContractInstance();
+    let res = await contract.balanceOfBatch(address,id);
+    return res;
+  }
+
+
+
+  //action function
 
   /**
    * Mint a new token to a user's address with a specified ID, amount, and data.
@@ -138,4 +147,45 @@ export class ERC1155 implements ERC1155Interface {
     let res = await contract.safeTransferFrom(from, to, id, amount, data);
     return res.toString();
   }
+
+    /**
+   * Renounce ownership of the contract.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+    async renounceOwnership(signer: any): Promise<string> {
+      let contract = this.getActionContractInstance(signer);
+      let res = await contract.renounceOwnership();
+      return res.toString();
+    }
+    
+    
+    
+    async safeBatchTransferFrom(from : string, to : String, ids: string[], value: string[], data: string, signer: any): Promise<string> {
+      let contract = this.getActionContractInstance(signer);
+      let res = await contract.safeBatchTransferFrom(from,to,ids,value,data);
+      return res.toString();
+    }
+    
+    
+    async setApprovalForAll(to : string, approved : Boolean,signer: any ): Promise<string> {
+      let contract = this.getActionContractInstance(signer);
+      let res = await contract.safeBatchTransferFrom(to , approved);
+      return res.toString();
+    }
+
+    /**
+   * Transfer ownership of the contract to a new address.
+   * @param {string} to - The address to which ownership will be transferred.
+   * @param {any} signer - The signer to authorize the transaction.
+   * @returns {Promise<string>} The transaction result as a string.
+   */
+    async transferOwnership(to: string, signer: any): Promise<string> {
+      let contract = this.getActionContractInstance(signer);
+      let res = await contract.transferOwnership(to);
+      return res.toString();
+    }
 }
+
+
+

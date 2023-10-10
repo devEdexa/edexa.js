@@ -1,12 +1,13 @@
-import { ERC20 } from "./ERC20Class";
 import { ethers, ContractFactory } from "ethers";
+import { ERC20 } from "./ERC20Class";
 import { ERC721 } from "./ERC721Class";
 import { ERC1155 } from "./ERC1155Class";
 import { erc20ArgType, erc721ArgType, erc1155ArgType } from "../types/types";
 import {
-  erc20Bytecode,
   erc1155Bytecode,
   erc721Bytecode,
+  erc20Bytecode1,
+  erc20Bytecode2,
 } from "../bytecode/byteCode";
 import erc20Abi from "../abi/ERC20-Abi.json";
 import erc721Abi from "../abi/ERC721-Abi.json";
@@ -22,8 +23,15 @@ export class EdexaClient {
    * @returns {Promise<any>} The deployed ERC20 contract.
    **/
   async createContractERC20(arg: erc20ArgType, signer: any) {
-    const factory = new ContractFactory(erc20Abi, erc20Bytecode, signer);
-    const contract = await factory.deploy(arg.name, arg.symbol, arg.supply);
+    let factory;
+    let contract;
+    if (arg.supply == undefined) {
+      factory = new ContractFactory(erc20Abi, erc20Bytecode1, signer);
+      contract = await factory.deploy(arg.name, arg.symbol, 0);
+    } else {
+      factory = new ContractFactory(erc20Abi, erc20Bytecode2, signer);
+      contract = await factory.deploy(arg.name, arg.symbol, arg.supply);
+    }
     return contract;
   }
 
@@ -49,12 +57,13 @@ export class EdexaClient {
     const factory = new ContractFactory(erc1155Abi, erc1155Bytecode, signer);
     const contract = await factory.deploy(arg.uri);
     return contract;
-  }/**
- * Create an ERC1155 contract using the provided arguments and signer.
- * @param {erc1155ArgType} arg - Arguments for creating the ERC1155 contract.
- * @param {any} signer - The signer to authorize the deployment.
- * @returns {Promise<any>} The deployed ERC1155 contract.
- **/
+  }
+  /**
+   * Create an ERC1155 contract using the provided arguments and signer.
+   * @param {erc1155ArgType} arg - Arguments for creating the ERC1155 contract.
+   * @param {any} signer - The signer to authorize the deployment.
+   * @returns {Promise<any>} The deployed ERC1155 contract.
+   **/
 
   /**
    * Create a signer using a private key and provider URL.

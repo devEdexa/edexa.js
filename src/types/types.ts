@@ -1,15 +1,14 @@
 export type erc20ArgType = {
-    name : string,
-    symbol : string,
-    supply : Number
-}
-
+  name: string;
+  symbol: string;
+  supply: Number | undefined;
+};
 
 export type erc721ArgType = {
-    name : string,
-    symbol : string,
-}
+  name: string;
+  symbol: string;
+};
 
 export type erc1155ArgType = {
-    uri : string
-}
+  uri: string;
+};

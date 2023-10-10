@@ -1,8 +1,5 @@
-
-
 export enum Standard {
-    ERC20,
-    ERC721,
-    ERC1155
+  ERC20,
+  ERC721,
+  ERC1155,
 }
-
