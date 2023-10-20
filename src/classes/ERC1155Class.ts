@@ -72,7 +72,12 @@ export class ERC1155 implements ERC1155Interface {
   }
 
 
-
+  /**
+ * Fetch the balances of multiple tokens (specified by their IDs) for a specific address.
+ * @param {string} address - The address for which the balances are to be fetched.
+ * @param {string[]} id - The array of token IDs to get balances for.
+ * @returns {Promise<string[]>} An array of balances for the specified tokens corresponding to the address.
+ */
   async getbBalanceOfBatch(address:string , id: string[]) {
     let contract = this.getContractInstance();
     let res = await contract.balanceOfBatch(address,id);
@@ -160,14 +165,29 @@ export class ERC1155 implements ERC1155Interface {
     }
     
     
-    
+    /**
+ * Safely transfer multiple tokens (specified by their IDs) from one address to another.
+ * @param {string} from - The sender's address.
+ * @param {string} to - The recipient's address.
+ * @param {string[]} ids - The array of token IDs to transfer.
+ * @param {string[]} value - The array of token amounts to transfer corresponding to each token ID.
+ * @param {string} data - Additional data associated with the transfer.
+ * @param {any} signer - The signer to authorize the transaction.
+ * @returns {Promise<string>} The transaction result as a string.
+ */
     async safeBatchTransferFrom(from : string, to : String, ids: string[], value: string[], data: string, signer: any): Promise<string> {
       let contract = this.getActionContractInstance(signer);
       let res = await contract.safeBatchTransferFrom(from,to,ids,value,data);
       return res.toString();
     }
     
-    
+    /**
+ * Set or unset the approval of a third party (an operator) to manage all tokens of the sender.
+ * @param {string} to - The operator's address to set approval for.
+ * @param {Boolean} approved - True to approve, false to revoke approval.
+ * @param {any} signer - The signer to authorize the transaction.
+ * @returns {Promise<string>} The transaction result as a string.
+ */
     async setApprovalForAll(to : string, approved : Boolean,signer: any ): Promise<string> {
       let contract = this.getActionContractInstance(signer);
       let res = await contract.safeBatchTransferFrom(to , approved);
