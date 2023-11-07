@@ -1,5 +1,7 @@
 import { ethers } from "ethers";
 import abi from "../abi/ERC721-Abi.json";
+import {resolveENSOrReturnAddress} from "../utils/resolve"
+
 
 export interface ERC721Interface {
   rpc: string;
@@ -55,6 +57,7 @@ export class ERC721 implements ERC721Interface {
    * @returns {Promise<string>} The balance of the user as a string.
    **/
   async getBalance(userAddress: string) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
     let contract = this.getContractInstance();
     let res = await contract.balanceOf(userAddress);
     return res.toString();
@@ -136,6 +139,8 @@ export class ERC721 implements ERC721Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async transferOwnership(to: string, signer: any): Promise<string> {
+    to = await resolveENSOrReturnAddress(to);
+
     let contract = this.getActionContractInstance(signer);
     let res = await contract.transferOwnership(to);
     return res.toString();
@@ -160,6 +165,8 @@ export class ERC721 implements ERC721Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async safeMint(userAddress: string, uri: string, signer: any) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
+
     let contract = this.getActionContractInstance(signer);
     let res = await contract.safeMint(userAddress, uri);
     return res.toString();
@@ -173,6 +180,8 @@ export class ERC721 implements ERC721Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async approve(userAddress: string, id: string, signer: any) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
+
     let contract = this.getActionContractInstance(signer);
     let res = await contract.approve(userAddress, id);
     return res.toString();
@@ -187,6 +196,9 @@ export class ERC721 implements ERC721Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async safeTransferFrom(from: string, to: string, id: string, signer: any) {
+    from = await resolveENSOrReturnAddress(from);
+    to = await resolveENSOrReturnAddress(to);
+
     let contract = this.getActionContractInstance(signer);
     let res = await contract.transferFrom(from, to, id);
     return res.toString();

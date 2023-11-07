@@ -1,5 +1,7 @@
 import { ethers } from "ethers";
 import abi from "../abi/ERC1155-Abi.json";
+import {resolveENSOrReturnAddress} from "../utils/resolve"
+
 
 export interface ERC1155Interface {
   rpc: string;
@@ -55,6 +57,7 @@ export class ERC1155 implements ERC1155Interface {
    * @returns {Promise<string>} The balance of the user for the specified token as a string.
    **/
   async getBalance(userAddress: string, id: string) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
     let contract = this.getContractInstance();
     let res = await contract.balanceOf(userAddress, id);
     return res;
@@ -79,6 +82,8 @@ export class ERC1155 implements ERC1155Interface {
  * @returns {Promise<string[]>} An array of balances for the specified tokens corresponding to the address.
  */
   async getbBalanceOfBatch(address:string , id: string[]) {
+    address = await resolveENSOrReturnAddress(address);
+
     let contract = this.getContractInstance();
     let res = await contract.balanceOfBatch(address,id);
     return res;
@@ -104,6 +109,7 @@ export class ERC1155 implements ERC1155Interface {
     data: string = "0x",
     signer: any
   ) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
     let contract = this.getActionContractInstance(signer);
     let res = await contract.mint(userAddress, id, amount, data);
     return res.toString();
@@ -125,6 +131,7 @@ export class ERC1155 implements ERC1155Interface {
     data: string = "0x",
     signer: any
   ) {
+    userAddress = await resolveENSOrReturnAddress(userAddress);
     let contract = this.getActionContractInstance(signer);
     let res = await contract.mintBatch(userAddress, id, amount, data);
     return res.toString();
@@ -148,6 +155,9 @@ export class ERC1155 implements ERC1155Interface {
     data: string = "0x",
     signer: any
   ) {
+    from = await resolveENSOrReturnAddress(from);
+    to = await resolveENSOrReturnAddress(to);
+
     let contract = this.getActionContractInstance(signer);
     let res = await contract.safeTransferFrom(from, to, id, amount, data);
     return res.toString();
@@ -175,7 +185,10 @@ export class ERC1155 implements ERC1155Interface {
  * @param {any} signer - The signer to authorize the transaction.
  * @returns {Promise<string>} The transaction result as a string.
  */
-    async safeBatchTransferFrom(from : string, to : String, ids: string[], value: string[], data: string, signer: any): Promise<string> {
+    async safeBatchTransferFrom(from : string, to : string, ids: string[], value: string[], data: string, signer: any): Promise<string> {
+      from = await resolveENSOrReturnAddress(from);
+      to = await resolveENSOrReturnAddress(to);
+
       let contract = this.getActionContractInstance(signer);
       let res = await contract.safeBatchTransferFrom(from,to,ids,value,data);
       return res.toString();
@@ -189,6 +202,8 @@ export class ERC1155 implements ERC1155Interface {
  * @returns {Promise<string>} The transaction result as a string.
  */
     async setApprovalForAll(to : string, approved : Boolean,signer: any ): Promise<string> {
+      to = await resolveENSOrReturnAddress(to);
+
       let contract = this.getActionContractInstance(signer);
       let res = await contract.safeBatchTransferFrom(to , approved);
       return res.toString();
@@ -201,6 +216,7 @@ export class ERC1155 implements ERC1155Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
     async transferOwnership(to: string, signer: any): Promise<string> {
+      to = await resolveENSOrReturnAddress(to);
       let contract = this.getActionContractInstance(signer);
       let res = await contract.transferOwnership(to);
       return res.toString();
