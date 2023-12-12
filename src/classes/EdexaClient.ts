@@ -2,16 +2,19 @@ import { ethers, ContractFactory } from "ethers";
 import { ERC20 } from "./ERC20Class";
 import { ERC721 } from "./ERC721Class";
 import { ERC1155 } from "./ERC1155Class";
-import { erc20ArgType, erc721ArgType, erc1155ArgType } from "../types/types";
+import { StableCoin } from "./StableCoinClass";
+import { erc20ArgType, erc721ArgType, erc1155ArgType, stableCoinArgType } from "../types/types";
 import {
   erc1155Bytecode,
   erc721Bytecode,
   erc20Bytecode1,
   erc20Bytecode2,
+  stableCoinByteCode
 } from "../bytecode/byteCode";
 import erc20Abi from "../abi/ERC20-Abi.json";
 import erc721Abi from "../abi/ERC721-Abi.json";
 import erc1155Abi from "../abi/ERC1155-Abi.json";
+import stableCoinAbi from "../abi/StableCoin.json";
 import ensAbi from "../abi/ENS.json"
 
 export class EdexaClient {
@@ -59,6 +62,19 @@ export class EdexaClient {
     const contract = await factory.deploy(arg.uri);
     return contract;
   }
+
+  /**
+   * Create an ERC1155 contract using the provided arguments and signer.
+   * @param {erc1155ArgType} arg - Arguments for creating the ERC1155 contract.
+   * @param {any} signer - The signer to authorize the deployment.
+   * @returns {Promise<any>} The deployed ERC1155 contract.
+   **/
+  async createContractStableCoin( arg: stableCoinArgType, signer: any) {
+    const factory = new ContractFactory(stableCoinAbi, stableCoinByteCode, signer);
+    const contract = await factory.deploy(arg.name,arg.symbol,arg.supply);
+    return contract;
+  }
+
   /**
    * Create an ERC1155 contract using the provided arguments and signer.
    * @param {erc1155ArgType} arg - Arguments for creating the ERC1155 contract.

@@ -3,6 +3,11 @@ export type erc20ArgType = {
   symbol: string;
   supply: Number | undefined;
 };
+export type stableCoinArgType = {
+  name: string;
+  symbol: string;
+  supply: Number | undefined;
+};
 
 export type erc721ArgType = {
   name: string;
