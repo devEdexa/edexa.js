@@ -154,6 +154,14 @@ export class EdexaClient {
     return new ERC1155(address, rpc, provider);
   }
 
+  getStableCoinInstance(
+    address: string,
+    rpc: string = "https://testnet.edexa.com/rpc",
+    provider?: any
+  ) {
+    return new StableCoin(address, rpc, provider);
+  }
+
 
 
 
