@@ -47,4 +47,3 @@ npm publish
 ## License
 
 MIT
-```
