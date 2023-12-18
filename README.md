@@ -29,6 +29,10 @@ Thank you to all the people who already contributed to `edexa.js`!
 
 ## Development
 
+## Compatibility
+
+This SDK is compatible with Node.js version 18.13.0.
+
 ### Setup
 
 ```bash
