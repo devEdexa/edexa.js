@@ -3,7 +3,7 @@ import chai, { expect } from "chai";
 
 var assert = require("assert");
 
-require('dotenv').config();
+require("dotenv").config();
 
 describe("ERC721 Tests", function () {
 	it("Create/Deploy New Contract and Mint NFT", async function () {
@@ -26,13 +26,19 @@ describe("ERC721 Tests", function () {
 			//@ts-ignore
 			process.env.PRIVATE_KEY
 		);
-		let ERC721 = await edexaclient.getERC721Instance("0x43AC33963a3d07A275D87463265Fe2f5C66c662A");
+		let ERC721 = await edexaclient.getERC721Instance(
+			"0x43AC33963a3d07A275D87463265Fe2f5C66c662A"
+		);
 
 		let preBalance = await ERC721.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
 		);
 
-		await ERC721.safeMint("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","www.google.com",signer);
+		await ERC721.safeMint(
+			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",
+			"www.google.com",
+			signer
+		);
 
 		let postBalance1 = await ERC721.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"

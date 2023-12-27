@@ -3,9 +3,7 @@ import chai, { expect } from "chai";
 
 var assert = require("assert");
 
-
-require('dotenv').config();
-
+require("dotenv").config();
 
 describe("ERC20 Tests", function () {
 	it("Create/Deploy New Contract", async function () {
@@ -29,13 +27,19 @@ describe("ERC20 Tests", function () {
 			//@ts-ignore
 			process.env.PRIVATE_KEY
 		);
-		let ERC20 = await edexaclient.getERC20Instance("0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15");
+		let ERC20 = await edexaclient.getERC20Instance(
+			"0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15"
+		);
 
 		let preBalance = await ERC20.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
 		);
 
-		await ERC20.mint("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","100",signer);
+		await ERC20.mint(
+			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",
+			"100",
+			signer
+		);
 
 		let postBalance1 = await ERC20.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
@@ -77,12 +81,11 @@ describe("ERC20 Tests", function () {
 		let postBalance2 = await ERC20.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
 		);
-	
+
 		let postBalance = await ERC20.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
 		);
 
-	
 		let expectBalance = Number(preBalance) + 100;
 		expect(Number(expectBalance)).to.equal(Number(postBalance));
 	});

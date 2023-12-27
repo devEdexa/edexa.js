@@ -3,10 +3,7 @@ import chai, { expect } from "chai";
 
 var assert = require("assert");
 
-require('dotenv').config();
-
-
-
+require("dotenv").config();
 
 describe("StableCoin Tests", function () {
 	it("Create/Deploy New Contract", async function () {
@@ -24,20 +21,25 @@ describe("StableCoin Tests", function () {
 		expect(tx.address).to.not.equal(undefined);
 	});
 
-	
 	it("Mint Token and Check Balance", async function () {
 		let edexaclient = new EdexaClient();
 		let signer = await edexaclient.createWalletSigner(
-				//@ts-ignore
-				process.env.PRIVATE_KEY
+			//@ts-ignore
+			process.env.PRIVATE_KEY
 		);
-		let StableCoin = await edexaclient.getStableCoinInstance("0x6Ea0EBef4a827C3699044eD5A6B19a95004C9Dfe");
+		let StableCoin = await edexaclient.getStableCoinInstance(
+			"0x6Ea0EBef4a827C3699044eD5A6B19a95004C9Dfe"
+		);
 
 		let preBalance = await StableCoin.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
 		);
 
-		await StableCoin.mint("0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5","100",signer);
+		await StableCoin.mint(
+			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",
+			"100",
+			signer
+		);
 
 		let postBalance1 = await StableCoin.getBalance(
 			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
@@ -52,5 +54,4 @@ describe("StableCoin Tests", function () {
 		let expectBalance = Number(preBalance) + 100;
 		expect(Number(expectBalance)).to.equal(Number(postBalance));
 	});
-
-	});
+});
