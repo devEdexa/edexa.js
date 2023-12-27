@@ -1,6 +1,7 @@
 import { EdexaClient } from "../src/index";
-var assert = require("assert");
 import chai, { expect } from "chai";
+
+var assert = require("assert");
  require('dotenv').config();
 
 describe("ERC1155 Tests", function () {
