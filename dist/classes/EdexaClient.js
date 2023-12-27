@@ -81,7 +81,9 @@ class EdexaClient {
      **/
     createContractStableCoin(arg, signer) {
         return __awaiter(this, void 0, void 0, function* () {
+           
             const factory = new ethers_1.ContractFactory(StableCoin_json_1.default, byteCode_1.stableCoinByteCode, signer);
+
             const contract = yield factory.deploy(arg.name, arg.symbol, arg.supply);
             return contract;
         });

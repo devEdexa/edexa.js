@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "del /q /s dist && tsc && webpack",
-    "test": "mocha -r ts-node/register test/**/*.ts --timeout 100000 $1"
+    "test": "mocha -r ts-node/register test/**/*.ts --timeout 100000 "
   },
   "keywords": [],
   "author": "",
@@ -24,7 +24,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
+    "mocha": "^10.2.0",
     "path": "^0.12.7"
   }
 }

@@ -4,6 +4,7 @@ import abi from "../abi/ERC20-Abi.json";
 import { concat } from "ethers/lib/utils";
 import { EdexaClient } from "./EdexaClient";
 import {resolveENSOrReturnAddress} from "../utils/resolve"
+import { copyFileSync } from "fs";
 
 
 export interface ERC20Interface {

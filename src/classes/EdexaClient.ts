@@ -70,7 +70,9 @@ export class EdexaClient {
    * @returns {Promise<any>} The deployed ERC1155 contract.
    **/
   async createContractStableCoin( arg: stableCoinArgType, signer: any) {
+
     const factory = new ContractFactory(stableCoinAbi, stableCoinByteCode, signer);
+ 
     const contract = await factory.deploy(arg.name,arg.symbol,arg.supply);
     return contract;
   }
