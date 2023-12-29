@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "del /q /s dist && tsc && webpack",
+    "build": "rm -rf dist && tsc && webpack",
     "test": "mocha -r ts-node/register test/**/*.ts --timeout 100000 "
   },
   "keywords": [],
