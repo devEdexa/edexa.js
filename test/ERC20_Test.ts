@@ -1,92 +1,92 @@
-import { EdexaClient } from "../src/index";
-import chai, { expect } from "chai";
+import { EdexaClient } from '../src/index'
+import chai, { expect } from 'chai'
 
-var assert = require("assert");
+var assert = require('assert')
 
-require("dotenv").config();
+require('dotenv').config()
 
-describe("ERC20 Tests", function () {
-	it("Create/Deploy New Contract", async function () {
-		let edexaclient = new EdexaClient();
-		let signer = await edexaclient.createWalletSigner(
-			//@ts-ignore
-			process.env.PRIVATE_KEY
-		);
-		let arg = {
-			name: "gautam",
-			symbol: "gau",
-			supply: undefined,
-		};
-		let tx = await edexaclient.createContractERC20(arg, signer);
-		expect(tx.address).to.not.equal(undefined);
-	});
+describe('ERC20 Tests', function () {
+  it('Create/Deploy New Contract', async function () {
+    let edexaclient = new EdexaClient()
+    let signer = await edexaclient.createWalletSigner(
+      //@ts-ignore
+      process.env.PRIVATE_KEY,
+    )
+    let arg = {
+      name: 'gautam',
+      symbol: 'gau',
+      supply: undefined,
+    }
+    let tx = await edexaclient.createContractERC20(arg, signer)
+    expect(tx.address).to.not.equal(undefined)
+  })
 
-	it("Mint Token and Check Balance", async function () {
-		let edexaclient = new EdexaClient();
-		let signer = await edexaclient.createWalletSigner(
-			//@ts-ignore
-			process.env.PRIVATE_KEY
-		);
-		let ERC20 = await edexaclient.getERC20Instance(
-			"0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15"
-		);
+  it('Mint Token and Check Balance', async function () {
+    let edexaclient = new EdexaClient()
+    let signer = await edexaclient.createWalletSigner(
+      //@ts-ignore
+      process.env.PRIVATE_KEY,
+    )
+    let ERC20 = await edexaclient.getERC20Instance(
+      '0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15',
+    )
 
-		let preBalance = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
+    let preBalance = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
 
-		await ERC20.mint(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",
-			"100",
-			signer
-		);
+    await ERC20.mint(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+      '100',
+      signer,
+    )
 
-		let postBalance1 = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
-		let postBalance2 = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
-		let postBalance = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
+    let postBalance1 = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
+    let postBalance2 = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
+    let postBalance = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
 
-		let expectBalance = Number(preBalance) + 100;
-		expect(Number(expectBalance)).to.equal(Number(postBalance));
-	});
+    let expectBalance = Number(preBalance) + 100
+    expect(Number(expectBalance)).to.equal(Number(postBalance))
+  })
 
-	it("Token Transfer Testing", async function () {
-		let edexaclient = new EdexaClient();
-		let signer = await edexaclient.createWalletSigner(
-			//@ts-ignore
-			process.env.PRIVATE_KEY
-		);
-		let ERC20 = await edexaclient.getERC20Instance(
-			"0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15"
-		);
+  it('Token Transfer Testing', async function () {
+    let edexaclient = new EdexaClient()
+    let signer = await edexaclient.createWalletSigner(
+      //@ts-ignore
+      process.env.PRIVATE_KEY,
+    )
+    let ERC20 = await edexaclient.getERC20Instance(
+      '0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15',
+    )
 
-		let preBalance = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
+    let preBalance = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
 
-		await ERC20.mint(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5",
-			"100",
-			signer
-		);
+    await ERC20.mint(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+      '100',
+      signer,
+    )
 
-		let postBalance1 = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
-		let postBalance2 = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
+    let postBalance1 = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
+    let postBalance2 = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
 
-		let postBalance = await ERC20.getBalance(
-			"0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5"
-		);
+    let postBalance = await ERC20.getBalance(
+      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+    )
 
-		let expectBalance = Number(preBalance) + 100;
-		expect(Number(expectBalance)).to.equal(Number(postBalance));
-	});
-});
+    let expectBalance = Number(preBalance) + 100
+    expect(Number(expectBalance)).to.equal(Number(postBalance))
+  })
+})

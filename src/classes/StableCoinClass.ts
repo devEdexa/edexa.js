@@ -1,44 +1,44 @@
 // Import necessary modules and dependencies
-import { Contract, ethers } from "ethers";
-import { relative } from "path";
-import abi from "../abi/StableCoin.json";
-import { EdexaClient } from "./EdexaClient";
-import { resolveENSOrReturnAddress } from "../utils/resolve";
+import { Contract, ethers } from 'ethers'
+import { relative } from 'path'
+import abi from '../abi/StableCoin.json'
+import { EdexaClient } from './EdexaClient'
+import { resolveENSOrReturnAddress } from '../utils/resolve'
 
 // Define the interface for the StableCoin
 export interface StableCoinInterface {
-  rpc: string;
-  provider: any;
-  getBalance(address: string): Promise<any>;
-  getAllowance(owner: string, spender: string): Promise<any>;
-  approve(userAddress: string, amount: string, provider: any): any;
-  transfer(userAddress: string, amount: string, provider: any): any;
+  rpc: string
+  provider: any
+  getBalance(address: string): Promise<any>
+  getAllowance(owner: string, spender: string): Promise<any>
+  approve(userAddress: string, amount: string, provider: any): any
+  transfer(userAddress: string, amount: string, provider: any): any
   transferFrom(
     userAddress: string,
     to: string,
     amount: string,
-    provider: any
-  ): any;
-  removeFromBlacklist(_account: string, provider: any): Promise<any>;
-  addToBlacklist(_account: string, provider: any): Promise<any>;
+    provider: any,
+  ): any
+  removeFromBlacklist(_account: string, provider: any): Promise<any>
+  addToBlacklist(_account: string, provider: any): Promise<any>
 }
 
 // Implement the StableCoin class based on the defined interface
 export class StableCoin implements StableCoinInterface {
-  address: string;
-  rpc: string;
-  provider: any;
+  address: string
+  rpc: string
+  provider: any
 
   // Constructor for the StableCoin class
   constructor(address: string, rpc: string, provider?: any) {
-    this.address = address;
+    this.address = address
 
     // Create an Ethereum provider based on the input or use a JsonRpcProvider
-    this.rpc = rpc;
+    this.rpc = rpc
     if (provider != undefined)
-      this.provider = new ethers.providers.Web3Provider(provider);
+      this.provider = new ethers.providers.Web3Provider(provider)
     else {
-      this.provider = new ethers.providers.JsonRpcProvider(rpc);
+      this.provider = new ethers.providers.JsonRpcProvider(rpc)
     }
   }
 
@@ -46,14 +46,14 @@ export class StableCoin implements StableCoinInterface {
 
   // Create a read-only contract instance
   getContractInstance() {
-    let contract = new ethers.Contract(this.address, abi, this.provider);
-    return contract;
+    let contract = new ethers.Contract(this.address, abi, this.provider)
+    return contract
   }
 
   // Create a contract instance for actions (requires a signer)
   getActionContractInstance(signer: any) {
-    let contract = new ethers.Contract(this.address, abi, signer);
-    return contract;
+    let contract = new ethers.Contract(this.address, abi, signer)
+    return contract
   }
 
   // Read functions
@@ -65,11 +65,11 @@ export class StableCoin implements StableCoinInterface {
    **/
   async getBalance(userAddress: string) {
     // Resolve ENS or return the address directly
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getContractInstance();
-    let res = await contract.balanceOf(userAddress);
-    return res.toString();
+    let contract = this.getContractInstance()
+    let res = await contract.balanceOf(userAddress)
+    return res.toString()
   }
 
   /**
@@ -79,12 +79,12 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The allowance amount as a string.
    **/
   async getAllowance(owner: string, spender: string) {
-    owner = await resolveENSOrReturnAddress(owner);
-    spender = await resolveENSOrReturnAddress(spender);
+    owner = await resolveENSOrReturnAddress(owner)
+    spender = await resolveENSOrReturnAddress(spender)
 
-    let contract = this.getContractInstance();
-    let res = await contract.allowance(owner, spender);
-    return res.toString();
+    let contract = this.getContractInstance()
+    let res = await contract.allowance(owner, spender)
+    return res.toString()
   }
 
   // Action functions
@@ -96,9 +96,9 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async burn(amount: string, signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.burn(amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.burn(amount)
+    return res.toString()
   }
 
   /**
@@ -109,11 +109,11 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async burnFrom(from: string, amount: string, signer: any): Promise<string> {
-    from = await resolveENSOrReturnAddress(from);
+    from = await resolveENSOrReturnAddress(from)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.burnFrom(from, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.burnFrom(from, amount)
+    return res.toString()
   }
 
   /**
@@ -124,10 +124,10 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async mint(to: string, amount: string, signer: any): Promise<string> {
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.mint(to, amount);
-    return res.toString();
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.mint(to, amount)
+    return res.toString()
   }
 
   /**
@@ -136,9 +136,9 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async pause(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.pause();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.pause()
+    return res.toString()
   }
 
   /**
@@ -147,9 +147,9 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async unpause(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.unpause();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.unpause()
+    return res.toString()
   }
 
   /**
@@ -158,9 +158,9 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async renounceOwnership(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.renounceOwnership();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.renounceOwnership()
+    return res.toString()
   }
 
   /**
@@ -170,10 +170,10 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async transferOwnership(to: string, signer: any): Promise<string> {
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transferOwnership(to);
-    return res.toString();
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transferOwnership(to)
+    return res.toString()
   }
 
   /**
@@ -184,11 +184,11 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async approve(userAddress: string, amount: string, signer: any) {
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.approve(userAddress, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.approve(userAddress, amount)
+    return res.toString()
   }
 
   /**
@@ -199,11 +199,11 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async transfer(userAddress: string, amount: string, signer: any) {
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transfer(userAddress, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transfer(userAddress, amount)
+    return res.toString()
   }
 
   /**
@@ -215,11 +215,11 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async transferFrom(from: string, to: string, amount: string, signer: any) {
-    from = await resolveENSOrReturnAddress(from);
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transferFrom(from, to, amount);
-    return res.toString();
+    from = await resolveENSOrReturnAddress(from)
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transferFrom(from, to, amount)
+    return res.toString()
   }
 
   // Blacklist functions
@@ -231,10 +231,10 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<any>} The transaction result.
    */
   async addToBlacklist(_account: string, signer: any): Promise<any> {
-    _account = await resolveENSOrReturnAddress(_account);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.addToBlacklist(_account);
-    return res.toString();
+    _account = await resolveENSOrReturnAddress(_account)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.addToBlacklist(_account)
+    return res.toString()
   }
 
   /**
@@ -244,9 +244,9 @@ export class StableCoin implements StableCoinInterface {
    * @returns {Promise<any>} The transaction result.
    */
   async removeFromBlacklist(_account: string, signer: any): Promise<any> {
-    _account = await resolveENSOrReturnAddress(_account);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.removeFromBlacklist(_account);
-    return res.toString();
+    _account = await resolveENSOrReturnAddress(_account)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.removeFromBlacklist(_account)
+    return res.toString()
   }
 }

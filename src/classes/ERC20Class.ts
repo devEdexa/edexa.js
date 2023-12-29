@@ -1,42 +1,41 @@
-import { Contract, ethers } from "ethers";
-import { relative } from "path";
-import abi from "../abi/ERC20-Abi.json";
-import { concat } from "ethers/lib/utils";
-import { EdexaClient } from "./EdexaClient";
-import {resolveENSOrReturnAddress} from "../utils/resolve"
-import { copyFileSync } from "fs";
-
+import { Contract, ethers } from 'ethers'
+import { relative } from 'path'
+import abi from '../abi/ERC20-Abi.json'
+import { concat } from 'ethers/lib/utils'
+import { EdexaClient } from './EdexaClient'
+import { resolveENSOrReturnAddress } from '../utils/resolve'
+import { copyFileSync } from 'fs'
 
 export interface ERC20Interface {
-  rpc: string;
-  provider: any;
-  getBalance(address: string): Promise<any>;
-  getAllowance(owner: string, spender: string): Promise<any>;
-  approve(userAddress: string, amount: string, provider: any): any;
-  getAllowance(owner: string, spender: string): any;
-  transfer(userAddress: string, amount: string, provider: any): any;
+  rpc: string
+  provider: any
+  getBalance(address: string): Promise<any>
+  getAllowance(owner: string, spender: string): Promise<any>
+  approve(userAddress: string, amount: string, provider: any): any
+  getAllowance(owner: string, spender: string): any
+  transfer(userAddress: string, amount: string, provider: any): any
   transferFrom(
     userAddress: string,
     to: string,
     amount: string,
-    provider: any
-  ): any;
+    provider: any,
+  ): any
 }
 
 export class ERC20 implements ERC20Interface {
-  address: string;
-  rpc: string;
-  provider: any;
+  address: string
+  rpc: string
+  provider: any
 
   constructor(address: string, rpc: string, provider?: any) {
-    this.address = address;
+    this.address = address
 
     // Create an Ethereum provider based on the input or use a JsonRpcProvider
-    this.rpc = rpc;
+    this.rpc = rpc
     if (provider != undefined)
-      this.provider = new ethers.providers.Web3Provider(provider);
+      this.provider = new ethers.providers.Web3Provider(provider)
     else {
-      this.provider = new ethers.providers.JsonRpcProvider(rpc);
+      this.provider = new ethers.providers.JsonRpcProvider(rpc)
     }
   }
 
@@ -44,14 +43,14 @@ export class ERC20 implements ERC20Interface {
 
   // Create a read-only contract instance
   getContractInstance() {
-    let contract = new ethers.Contract(this.address, abi, this.provider);
-    return contract;
+    let contract = new ethers.Contract(this.address, abi, this.provider)
+    return contract
   }
 
   // Create a contract instance for actions (requires a signer)
   getActionContractInstance(signer: any) {
-    let contract = new ethers.Contract(this.address, abi, signer);
-    return contract;
+    let contract = new ethers.Contract(this.address, abi, signer)
+    return contract
   }
 
   //read function
@@ -62,11 +61,11 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The balance of the user as a string.
    **/
   async getBalance(userAddress: string) {
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getContractInstance();
-    let res = await contract.balanceOf(userAddress);
-    return res.toString();
+    let contract = this.getContractInstance()
+    let res = await contract.balanceOf(userAddress)
+    return res.toString()
   }
 
   /**
@@ -76,12 +75,12 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The allowance amount as a string.
    **/
   async getAllowance(owner: string, spender: string) {
-    owner = await resolveENSOrReturnAddress(owner);
-    spender = await resolveENSOrReturnAddress(spender);
+    owner = await resolveENSOrReturnAddress(owner)
+    spender = await resolveENSOrReturnAddress(spender)
 
-    let contract = this.getContractInstance();
-    let res = await contract.allowance(owner, spender);
-    return res.toString();
+    let contract = this.getContractInstance()
+    let res = await contract.allowance(owner, spender)
+    return res.toString()
   }
 
   //action function
@@ -92,9 +91,9 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async burn(amount: string, signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.burn(amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.burn(amount)
+    return res.toString()
   }
 
   /**
@@ -105,11 +104,11 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async burnFrom(from: string, amount: string, signer: any): Promise<string> {
-    from = await resolveENSOrReturnAddress(from);
+    from = await resolveENSOrReturnAddress(from)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.burnFrom(from, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.burnFrom(from, amount)
+    return res.toString()
   }
 
   /**
@@ -120,10 +119,10 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async mint(to: string, amount: string, signer: any): Promise<string> {
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.mint(to, amount);
-    return res.toString();
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.mint(to, amount)
+    return res.toString()
   }
 
   /**
@@ -132,9 +131,9 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async pause(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.pause();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.pause()
+    return res.toString()
   }
 
   /**
@@ -143,9 +142,9 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async unpause(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.unpause();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.unpause()
+    return res.toString()
   }
 
   /**
@@ -154,9 +153,9 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async renounceOwnership(signer: any): Promise<string> {
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.renounceOwnership();
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.renounceOwnership()
+    return res.toString()
   }
 
   /**
@@ -166,10 +165,10 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    */
   async transferOwnership(to: string, signer: any): Promise<string> {
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transferOwnership(to);
-    return res.toString();
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transferOwnership(to)
+    return res.toString()
   }
   /**
    * Approve a spender to spend a specific amount on your behalf.
@@ -179,11 +178,11 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async approve(userAddress: string, amount: string, signer: any) {
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.approve(userAddress, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.approve(userAddress, amount)
+    return res.toString()
   }
 
   /**
@@ -194,11 +193,11 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async transfer(userAddress: string, amount: string, signer: any) {
-    userAddress = await resolveENSOrReturnAddress(userAddress);
+    userAddress = await resolveENSOrReturnAddress(userAddress)
 
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transfer(userAddress, amount);
-    return res.toString();
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transfer(userAddress, amount)
+    return res.toString()
   }
 
   /**
@@ -210,10 +209,10 @@ export class ERC20 implements ERC20Interface {
    * @returns {Promise<string>} The transaction result as a string.
    **/
   async transferFrom(from: string, to: string, amount: string, signer: any) {
-    from = await resolveENSOrReturnAddress(from);
-    to = await resolveENSOrReturnAddress(to);
-    let contract = this.getActionContractInstance(signer);
-    let res = await contract.transferFrom(from, to, amount);
-    return res.toString();
+    from = await resolveENSOrReturnAddress(from)
+    to = await resolveENSOrReturnAddress(to)
+    let contract = this.getActionContractInstance(signer)
+    let res = await contract.transferFrom(from, to, amount)
+    return res.toString()
   }
 }
