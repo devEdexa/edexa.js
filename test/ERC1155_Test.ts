@@ -58,4 +58,4 @@ describe('ERC1155 Tests', function () {
     let expectBalance = Number(preBalance) + 1
     expect(Number(expectBalance)).to.equal(Number(postBalance))
   })
-})
+ })

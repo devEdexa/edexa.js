@@ -89,4 +89,27 @@ describe('ERC20 Tests', function () {
     let expectBalance = Number(preBalance) + 100
     expect(Number(expectBalance)).to.equal(Number(postBalance))
   })
+
+  it('Mint Token Should fail becuse caller is not owner', async function () {
+    try {
+      let edexaclient = new EdexaClient()
+      let signer = await edexaclient.createWalletSigner(
+        //@ts-ignore
+        process.env.PRIVATE_KEY2,
+      )
+      let ERC20 = await edexaclient.getERC20Instance(
+        '0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15',
+      )
+
+      await ERC20.mint(
+        '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+        '100',
+        signer,
+      )
+
+      expect.fail('Minting should not be allowed from a non-owner address')
+    } catch (error) {
+      expect(error.message).to.include('Ownable: caller is not the owner')
+    }
+  })
 })

@@ -54,4 +54,26 @@ describe('StableCoin Tests', function () {
     let expectBalance = Number(preBalance) + 100
     expect(Number(expectBalance)).to.equal(Number(postBalance))
   })
+  it('Mint Token in Stablecoin should fail because caller is not owner', async function () {
+    try {
+      let edexaclient = new EdexaClient()
+      let signer = await edexaclient.createWalletSigner(
+        //@ts-ignore
+        process.env.PRIVATE_KEY2,
+      )
+      let StableCoin = await edexaclient.getStableCoinInstance(
+        '0x6Ea0EBef4a827C3699044eD5A6B19a95004C9Dfe',
+      )
+
+      await StableCoin.mint(
+        '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
+        '100',
+        signer,
+      )
+
+      expect.fail('Minting should not be allowed from a non-owner address')
+    } catch (error) {
+      expect(error.message).to.include('Execution reverted')
+    }
+  })
 })
