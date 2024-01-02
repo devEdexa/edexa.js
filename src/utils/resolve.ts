@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import ensAbi from '../abi/ENS.json'
+import { RPC_URL } from '../constants'
 
 export async function resolveENSOrReturnAddress(
   input: string,
@@ -10,9 +11,7 @@ export async function resolveENSOrReturnAddress(
       return input
     } else {
       // If it's not a valid address, try to resolve it through ENS
-      const provider = new ethers.providers.JsonRpcProvider(
-        'https://testnet.edexa.com/rpc',
-      )
+      const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
       const ens = new ethers.Contract(
         '0x0cc23341aacFc90B1582d965943d1f10D94638Cf',
         ensAbi,

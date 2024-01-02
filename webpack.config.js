@@ -22,4 +22,3 @@ module.exports = {
     extensions: ['.ts', '.js'], // Include .ts file extension
   },
 }
-

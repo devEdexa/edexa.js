@@ -3,3 +3,5 @@ export enum Standard {
   ERC721,
   ERC1155,
 }
+
+export let RPC_URL = 'https://testnet.edexa.com/rpc'

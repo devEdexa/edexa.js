@@ -106,7 +106,6 @@ describe('ERC20 Tests', function () {
         '100',
         signer,
       )
-
       expect.fail('Minting should not be allowed from a non-owner address')
     } catch (error) {
       expect(error.message).to.include('Ownable: caller is not the owner')
