@@ -40,12 +40,9 @@ describe('ERC20 Tests', function () {
       signer,
     )
 
-    let postBalance1 = await ERC20.getBalance(
-      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
-    )
-    let postBalance2 = await ERC20.getBalance(
-      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
-    )
+    //waiting for 2 sec since block is getting processed..
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     let postBalance = await ERC20.getBalance(
       '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
     )
@@ -74,12 +71,8 @@ describe('ERC20 Tests', function () {
       signer,
     )
 
-    let postBalance1 = await ERC20.getBalance(
-      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
-    )
-    let postBalance2 = await ERC20.getBalance(
-      '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
-    )
+      //waiting for 2 sec since block is getting processed..
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
     let postBalance = await ERC20.getBalance(
       '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
