@@ -126,16 +126,16 @@ export class ERC1155 implements ERC1155Interface {
    * @param {string} userAddress - The user's address.
    * @param {string[]} id - An array of token IDs to mint.
    * @param {string[]} amount - An array of amounts corresponding to the token IDs.
-   * @param {string} data - Additional data associated with the minting (default is "0x").
    * @param {ethers.Wallet} signer - The signer to authorize the transaction.
+   * @param {string} data - Additional data associated with the minting (default is "0x").
    * @returns {string} The transaction result as a string.
    **/
   async mintBatch(
     userAddress: string,
     id: string[],
     amount: string[],
-    data: string = '0x',
     signer: ethers.Wallet,
+    data: string = '0x',
   ) {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)

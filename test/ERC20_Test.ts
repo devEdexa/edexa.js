@@ -15,7 +15,6 @@ describe('ERC20 Tests', function () {
     let arg = {
       name: 'gautam',
       symbol: 'gau',
-      supply: undefined,
     }
     let tx = await edexaclient.createContractERC20(arg, signer)
     expect(tx.address).to.not.equal(undefined)

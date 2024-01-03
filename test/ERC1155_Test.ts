@@ -38,7 +38,6 @@ describe('ERC1155 Tests', function () {
       '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
       ['0'],
       ['1'],
-      undefined,
       signer,
     )
 
