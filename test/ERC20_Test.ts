@@ -41,7 +41,7 @@ describe('ERC20 Tests', function () {
     )
 
     //waiting for 2 sec since block is getting processed..
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     let postBalance = await ERC20.getBalance(
       '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
@@ -71,8 +71,8 @@ describe('ERC20 Tests', function () {
       signer,
     )
 
-      //waiting for 2 sec since block is getting processed..
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    //waiting for 2 sec since block is getting processed..
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     let postBalance = await ERC20.getBalance(
       '0xF6E234C71F1bB45ABa51c977137eF090b2df2Fe5',
@@ -101,6 +101,54 @@ describe('ERC20 Tests', function () {
       expect.fail('Minting should not be allowed from a non-owner address')
     } catch (error) {
       expect(error.message).to.include('Ownable: caller is not the owner')
+    }
+  })
+
+  it('pass empty string as address in mint function should fail', async function () {
+    try {
+      let edexaclient = new EdexaClient()
+      let signer = await edexaclient.createWalletSigner(
+        //@ts-ignore
+        process.env.PRIVATE_KEY2,
+      )
+
+      let ERC20 = await edexaclient.getERC20Instance(
+        '0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15',
+      )
+
+      await ERC20.mint(
+        // @ts-ignore
+        '',
+        '100',
+        signer,
+      )
+      expect.fail('token mint which should not be mint')
+    } catch (error) {
+      expect(error.message).to.include('ENS Not Registered for')
+    }
+  })
+
+  it('pass undefined in mint function should fail', async function () {
+    try {
+      let edexaclient = new EdexaClient()
+      let signer = await edexaclient.createWalletSigner(
+        //@ts-ignore
+        process.env.PRIVATE_KEY2,
+      )
+
+      let ERC20 = await edexaclient.getERC20Instance(
+        '0x884aed749F7e58eDcA48F1953BFe23C8dbAC4e15',
+      )
+
+      await ERC20.mint(
+        // @ts-ignore
+        undefined,
+        '100',
+        signer,
+      )
+      expect.fail('token mint which should not be mint')
+    } catch (error) {
+      expect(error.message).to.include('Cannot read properties of undefined')
     }
   })
 })
