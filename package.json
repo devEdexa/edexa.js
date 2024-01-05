@@ -2,7 +2,7 @@
   "name": "edexajs-dev",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc && webpack",
     "test": "mocha -r ts-node/register test/**/*.ts --timeout 100000 ",
