@@ -6,7 +6,6 @@
 
 This repository contains the `edexa.js` client library. `edexa.js` makes it easy for developers, who may not be deeply familiar with smart contract development, to interact with the various components of Edexa Network.
 
-
 ## Docs
 
 [https://developer.edexa.network/](https://developer.edexa.network/)
@@ -29,11 +28,16 @@ Thank you to all the people who already contributed to `edexa.js`!
 
 ## Development
 
+## Compatibility
+
+This SDK is compatible with Node.js version 18.13.0.
+
 ### Setup
 
 ```bash
 npm ci
 ```
+
 ### NPM publish
 
 Before running the publish script, make sure you have updated the version properly.
@@ -47,4 +51,7 @@ npm publish
 ## License
 
 MIT
+
+```
+
 ```
