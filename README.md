@@ -1,14 +1,10 @@
-# Edexa SDK
-
-[![GitHub version](https://img.shields.io/github/v/release/USERNAME/REPOSITORY)](https://github.com/devEdexa/edexa.js/releases)
-[![npm version](https://img.shields.io/npm/v/edexa-sdk)](https://www.npmjs.com/package/edexa-sdk)
-[![GitHub TEST](https://img.shields.io/github/workflow/status/USERNAME/REPOSITORY/TEST?label=GitHub%20TEST)](https://github.com/devEdexa/edexa.js/actions/workflows/test.yml)
+# edeXa js
 
 This repository contains the `edexa.js` client library. `edexa.js` makes it easy for developers, who may not be deeply familiar with smart contract development, to interact with the various components of Edexa Network.
 
 ## Docs
 
-[https://developer.edexa.network/](https://developer.edexa.network/)
+[https://developer.edexa.network/docs/category/edexajs/](https://developer.edexa.network/docs/category/edexajs/)
 
 ## Support
 
