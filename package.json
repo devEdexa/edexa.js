@@ -1,5 +1,5 @@
 {
-  "name": "edexajs-dev",
+  "name": "@edexa/edexajs",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -21,8 +21,11 @@
       "git add"
     ]
   },
-  "keywords": [],
-  "author": "",
+  "author": "edeXa",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devEdexa/edexa.js"
+  },
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.23.6",
@@ -51,5 +54,10 @@
   "dependencies": {
     "ethers": "^5.7.2",
     "path": "^0.12.7"
-  }
+  },
+  "keywords": [
+    "edexajs",
+    "edexasdk",
+    "edexablockchain"
+  ]
 }
