@@ -16,7 +16,7 @@ You are very welcome to contribute, please see contributing guidelines - [Contri
 
 Thank you to all the people who already contributed to `edexa.js`!
 
-<a href="https://github.com/maticnetwork/matic.js/graphs/contributors">
+<a href="https://github.com/devEdexa/edexa.js/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=devEdexa/edexa.js" />
 </a>
 
