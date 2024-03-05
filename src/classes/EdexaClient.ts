@@ -3,6 +3,7 @@ import { ERC20 } from './ERC20Class'
 import { ERC721 } from './ERC721Class'
 import { ERC1155 } from './ERC1155Class'
 import { StableCoin } from './StableCoinClass'
+import { AtomicSwapEth } from './AtomicSwapEthClass'
 import {
   erc20ArgType,
   erc721ArgType,
@@ -15,11 +16,13 @@ import {
   erc20Bytecode1,
   erc20Bytecode2,
   stableCoinByteCode,
+  atomicSwapEthByteCode
 } from '../bytecode/byteCode'
 import erc20Abi from '../abi/ERC20-Abi.json'
 import erc721Abi from '../abi/ERC721-Abi.json'
 import erc1155Abi from '../abi/ERC1155-Abi.json'
 import stableCoinAbi from '../abi/StableCoin.json'
+import atomicSwapEthAbi from '../abi/AtomicSwapEth.json'
 import ensAbi from '../abi/ENS.json'
 import { RPC_URL } from '../constants'
 
@@ -66,6 +69,12 @@ export class EdexaClient {
   async createContractERC1155(arg: erc1155ArgType, signer: ethers.Wallet) {
     const factory = new ContractFactory(erc1155Abi, erc1155Bytecode, signer)
     const contract = await factory.deploy(arg.uri)
+    return contract
+  }
+
+  async createContractAtomicSwapEth(signer: ethers.Wallet) {
+    const factory = new ContractFactory(atomicSwapEthAbi, atomicSwapEthByteCode, signer)
+    const contract = await factory.deploy();
     return contract
   }
 
@@ -142,6 +151,11 @@ export class EdexaClient {
 
   getStableCoinInstance(address: string, rpc: string = RPC_URL) {
     return new StableCoin(address, rpc)
+  }
+  
+  
+  getAtomicSwapEthInstance(address: string, rpc: string = RPC_URL) {
+    return new AtomicSwapEth(address, rpc)
   }
 
   async resolveENSOrReturnAddress(input: string) {
