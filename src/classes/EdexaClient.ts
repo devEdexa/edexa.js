@@ -22,6 +22,7 @@ import erc1155Abi from '../abi/ERC1155-Abi.json'
 import stableCoinAbi from '../abi/StableCoin.json'
 import ensAbi from '../abi/ENS.json'
 import { RPC_URL } from '../constants'
+import { CBDC } from './CBDCClass'
 
 export class EdexaClient {
   //signers
@@ -175,5 +176,15 @@ export class EdexaClient {
     } catch (error) {
       throw new Error(`Error: ${error.message}`)
     }
+  }
+
+  /**
+   * Get an instance of the ERC1155 contract.
+   * @param {string} address - The address of the ERC1155 contract.
+   * @param {string} rpc - The RPC URL (default is "RPC_URL ").
+   * @returns {ERC1155} An instance of the ERC1155 contract.
+   **/
+  getCBDCInstance(address: string, rpc: string = RPC_URL) {
+    return new CBDC(address, rpc)
   }
 }
