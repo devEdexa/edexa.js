@@ -105,7 +105,7 @@ export class EdexaClient {
   createWalletSigner(pvtKey: string): ethers.Wallet {
     const wallet = new ethers.Wallet(pvtKey)
     const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
-    let signer = wallet.connect(provider)
+    const signer = wallet.connect(provider)
     return signer
   }
 
@@ -184,7 +184,7 @@ export class EdexaClient {
    * @param {string} rpc - The RPC URL (default is "RPC_URL ").
    * @returns {ERC1155} An instance of the ERC1155 contract.
    **/
-  getCBDCInstance(address: string, rpc: string = RPC_URL) {
-    return new CBDC(address, rpc)
+  getCBDCInstance(rpc: string = RPC_URL) {
+    return new CBDC(rpc)
   }
 }

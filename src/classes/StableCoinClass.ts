@@ -28,7 +28,7 @@ export class StableCoin implements StableCoinInterface {
   // Create a read-only contract instance
   getContractInstance() {
     try {
-      let contract = new ethers.Contract(this.address, abi, this.provider)
+      const contract = new ethers.Contract(this.address, abi, this.provider)
       return contract
     } catch (error) {
       throw error
@@ -38,7 +38,7 @@ export class StableCoin implements StableCoinInterface {
   // Create a contract instance for actions (requires a signer)
   getActionContractInstance(signer: ethers.Wallet) {
     try {
-      let contract = new ethers.Contract(this.address, abi, signer)
+      const contract = new ethers.Contract(this.address, abi, signer)
       return contract
     } catch (error) {
       throw error
@@ -56,8 +56,8 @@ export class StableCoin implements StableCoinInterface {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
 
-      let contract = this.getContractInstance()
-      let res = await contract.balanceOf(userAddress)
+      const contract = this.getContractInstance()
+      const res = await contract.balanceOf(userAddress)
       return res.toString()
     } catch (error) {
       throw error
@@ -75,8 +75,8 @@ export class StableCoin implements StableCoinInterface {
       owner = await resolveENSOrReturnAddress(owner)
       spender = await resolveENSOrReturnAddress(spender)
 
-      let contract = this.getContractInstance()
-      let res = await contract.allowance(owner, spender)
+      const contract = this.getContractInstance()
+      const res = await contract.allowance(owner, spender)
       return res.toString()
     } catch (error) {
       throw error
@@ -92,8 +92,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async burn(amount: string, signer: ethers.Wallet) {
     try {
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.burn(amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.burn(amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -111,8 +111,8 @@ export class StableCoin implements StableCoinInterface {
     try {
       from = await resolveENSOrReturnAddress(from)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.burnFrom(from, amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.burnFrom(from, amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -129,8 +129,8 @@ export class StableCoin implements StableCoinInterface {
   async mint(to: string, amount: string, signer: any) {
     try {
       to = await resolveENSOrReturnAddress(to)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.mint(to, amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.mint(to, amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -144,8 +144,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async pause(signer: ethers.Wallet) {
     try {
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.pause()
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.pause()
       return res.toString()
     } catch (error) {
       throw error
@@ -159,8 +159,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async unpause(signer: ethers.Wallet) {
     try {
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.unpause()
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.unpause()
       return res.toString()
     } catch (error) {
       throw error
@@ -174,8 +174,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async renounceOwnership(signer: ethers.Wallet) {
     try {
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.renounceOwnership()
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.renounceOwnership()
       return res.toString()
     } catch (error) {
       throw error
@@ -191,8 +191,8 @@ export class StableCoin implements StableCoinInterface {
   async transferOwnership(to: string, signer: ethers.Wallet) {
     try {
       to = await resolveENSOrReturnAddress(to)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.transferOwnership(to)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.transferOwnership(to)
       return res.toString()
     } catch (error) {
       throw error
@@ -209,8 +209,8 @@ export class StableCoin implements StableCoinInterface {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.approve(userAddress, amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.approve(userAddress, amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -228,8 +228,8 @@ export class StableCoin implements StableCoinInterface {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.transfer(userAddress, amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.transfer(userAddress, amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -253,8 +253,8 @@ export class StableCoin implements StableCoinInterface {
     try {
       from = await resolveENSOrReturnAddress(from)
       to = await resolveENSOrReturnAddress(to)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.transferFrom(from, to, amount)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.transferFrom(from, to, amount)
       return res.toString()
     } catch (error) {
       throw error
@@ -271,8 +271,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async addToBlacklist(_account: string, signer: ethers.Wallet) {
     _account = await resolveENSOrReturnAddress(_account)
-    let contract = this.getActionContractInstance(signer)
-    let res = await contract.addToBlacklist(_account)
+    const contract = this.getActionContractInstance(signer)
+    const res = await contract.addToBlacklist(_account)
     return res.toString()
   }
 
@@ -284,8 +284,8 @@ export class StableCoin implements StableCoinInterface {
    */
   async removeFromBlacklist(_account: string, signer: ethers.Wallet) {
     _account = await resolveENSOrReturnAddress(_account)
-    let contract = this.getActionContractInstance(signer)
-    let res = await contract.removeFromBlacklist(_account)
+    const contract = this.getActionContractInstance(signer)
+    const res = await contract.removeFromBlacklist(_account)
     return res.toString()
   }
 }

@@ -4,7 +4,7 @@ export enum Standard {
   ERC1155,
 }
 
-export let RPC_URL =
+export const RPC_URL =
   'https://rpc.ankr.com/polygon_mumbai' ||
   'https://rpc-mumbai.maticvigil.com' ||
   'https://testnet.edexa.com/rpc'

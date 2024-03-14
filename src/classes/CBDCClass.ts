@@ -14,6 +14,7 @@ export class CBDC {
     this.provider = new ethers.providers.JsonRpcProvider(rpc)
     this.contract = new ethers.Contract(this.address, abi, this.provider)
   }
+
   // Create a read-only contract instance
   setContractInstance(signer) {
     try {
@@ -23,10 +24,11 @@ export class CBDC {
       throw error
     }
   }
+
   // Create a contract instance for actions (requires a signer)
   private getContractInstance(address, signer: ethers.Wallet) {
     try {
-      let contract = new ethers.Contract(address, erc20Abi, signer)
+      const contract = new ethers.Contract(address, erc20Abi, signer)
       return contract
     } catch (error) {
       throw error
@@ -48,8 +50,7 @@ export class CBDC {
         this.address,
         ethers.utils.parseUnits(amountToGive.toString(), ETHER_UNITS.ETHER),
       )
-      const approveTransaction = await approveTx.wait()
-      console.log(approveTransaction)
+      await approveTx.wait()
       const tx = await this.contract.createOrder(
         tokenToGive,
         ethers.utils.parseUnits(amountToGive.toString(), ETHER_UNITS.ETHER),
@@ -65,24 +66,23 @@ export class CBDC {
       await tx.wait()
       return tx.hash
     } catch (error) {
-      console.error('Error creating order:', error)
       throw error
     }
   }
 
   async swap(
-    orderId: string,
+    orderId: number,
     amountToReceive: string,
     tokenToGive: string,
-    amountToGive: string,
+    amountToGive: number,
     signer,
   ) {
     try {
-      console.log(
-        ethers.utils
-          .parseUnits('5000'.toString(), ETHER_UNITS.ETHER)
-          .toString(),
-      )
+      // console.log(
+      //   ethers.utils
+      //     .parseUnits('5000'.toString(), ETHER_UNITS.ETHER)
+      //     .toString(),
+      // )
       const tokenToGiveContract = this.getContractInstance(tokenToGive, signer)
       const approveTransaction = await tokenToGiveContract.approve(
         this.address,
@@ -94,7 +94,6 @@ export class CBDC {
       await tx.wait()
       return tx.hash
     } catch (error) {
-      console.error('Error swapping tokens:', error)
       throw error
     }
   }
@@ -105,7 +104,6 @@ export class CBDC {
       await tx.wait()
       return tx.hash
     } catch (error) {
-      console.error('Error cancelling order:', error)
       throw error
     }
   }
@@ -115,7 +113,6 @@ export class CBDC {
       const transactionFee = await this.contract.creationFee()
       return parseFloat(transactionFee.toString())
     } catch (error) {
-      console.error('Error cancelling order:', error)
       throw error
     }
   }

@@ -1,12 +1,12 @@
 export type erc20ArgType = {
   name: string
   symbol: string
-  supply?: Number | undefined
+  supply?: number | undefined
 }
 export type stableCoinArgType = {
   name: string
   symbol: string
-  supply: Number
+  supply: number
 }
 
 export type erc721ArgType = {

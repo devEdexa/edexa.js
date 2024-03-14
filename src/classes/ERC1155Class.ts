@@ -24,7 +24,7 @@ export class ERC1155 implements ERC1155Interface {
   // Create a read-only contract instance
   getContractInstance() {
     try {
-      let contract = new ethers.Contract(this.address, abi, this.provider)
+      const contract = new ethers.Contract(this.address, abi, this.provider)
       return contract
     } catch (error) {
       throw error
@@ -34,7 +34,7 @@ export class ERC1155 implements ERC1155Interface {
   // Create a contract instance for actions (requires a signer)
   getActionContractInstance(signer: any) {
     try {
-      let contract = new ethers.Contract(this.address, abi, signer)
+      const contract = new ethers.Contract(this.address, abi, signer)
       return contract
     } catch (error) {
       throw error
@@ -52,8 +52,8 @@ export class ERC1155 implements ERC1155Interface {
   async getBalance(userAddress: string, id: string) {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
-      let contract = this.getContractInstance()
-      let res = await contract.balanceOf(userAddress, id)
+      const contract = this.getContractInstance()
+      const res = await contract.balanceOf(userAddress, id)
       return res
     } catch (error) {
       throw error
@@ -67,8 +67,8 @@ export class ERC1155 implements ERC1155Interface {
    **/
   async getUri(id: string) {
     try {
-      let contract = this.getContractInstance()
-      let res = await contract.uri(id)
+      const contract = this.getContractInstance()
+      const res = await contract.uri(id)
       return res.toString()
     } catch (error) {
       throw error
@@ -85,8 +85,8 @@ export class ERC1155 implements ERC1155Interface {
     try {
       address = await resolveENSOrReturnAddress(address)
 
-      let contract = this.getContractInstance()
-      let res = await contract.balanceOfBatch(address, id)
+      const contract = this.getContractInstance()
+      const res = await contract.balanceOfBatch(address, id)
       return res
     } catch (error) {
       throw error
@@ -113,8 +113,8 @@ export class ERC1155 implements ERC1155Interface {
   ) {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.mint(userAddress, id, amount, data)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.mint(userAddress, id, amount, data)
       return res.toString()
     } catch (error) {
       throw error
@@ -139,8 +139,8 @@ export class ERC1155 implements ERC1155Interface {
   ) {
     try {
       userAddress = await resolveENSOrReturnAddress(userAddress)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.mintBatch(userAddress, id, amount, data)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.mintBatch(userAddress, id, amount, data)
       return res.toString()
     } catch (error) {
       throw error
@@ -169,8 +169,8 @@ export class ERC1155 implements ERC1155Interface {
       from = await resolveENSOrReturnAddress(from)
       to = await resolveENSOrReturnAddress(to)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.safeTransferFrom(from, to, id, amount, data)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.safeTransferFrom(from, to, id, amount, data)
       return res.toString()
     } catch (error) {
       throw error
@@ -184,8 +184,8 @@ export class ERC1155 implements ERC1155Interface {
    */
   async renounceOwnership(signer: ethers.Wallet) {
     try {
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.renounceOwnership()
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.renounceOwnership()
       return res.toString()
     } catch (error) {
       throw error
@@ -214,8 +214,14 @@ export class ERC1155 implements ERC1155Interface {
       from = await resolveENSOrReturnAddress(from)
       to = await resolveENSOrReturnAddress(to)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.safeBatchTransferFrom(from, to, ids, value, data)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.safeBatchTransferFrom(
+        from,
+        to,
+        ids,
+        value,
+        data,
+      )
       return res.toString()
     } catch (error) {
       throw error
@@ -231,14 +237,14 @@ export class ERC1155 implements ERC1155Interface {
    */
   async setApprovalForAll(
     to: string,
-    approved: Boolean,
+    approved: boolean,
     signer: ethers.Wallet,
   ) {
     try {
       to = await resolveENSOrReturnAddress(to)
 
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.safeBatchTransferFrom(to, approved)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.safeBatchTransferFrom(to, approved)
       return res.toString()
     } catch (error) {
       throw error
@@ -254,8 +260,8 @@ export class ERC1155 implements ERC1155Interface {
   async transferOwnership(to: string, signer: ethers.Wallet) {
     try {
       to = await resolveENSOrReturnAddress(to)
-      let contract = this.getActionContractInstance(signer)
-      let res = await contract.transferOwnership(to)
+      const contract = this.getActionContractInstance(signer)
+      const res = await contract.transferOwnership(to)
       return res.toString()
     } catch (error) {
       throw error
