@@ -1,0 +1,33 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ['beta', 'live']
+  pull_request:
+    branches: ['beta', 'development', 'hotfix/*']
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # To install dependencies locked inside package-lock.json
+      - name: Installing node_modules
+        run: npm ci
+
+      - name: Run Lint
+        run: |
+          npm run lint
+          npm run typecheck

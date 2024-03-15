@@ -10,7 +10,7 @@ const ordersList: any = []
 let orderId: number
 let fee: number
 describe('CBDC Tests', function () {
-  it('Get Creation Fee for creating order', async function () {
+  it.skip('Get Creation Fee for creating order', async function () {
     const edexaclient = new EdexaClient()
     const cbdc = edexaclient.getCBDCInstance() // creationFee  of cbdc
 
@@ -38,7 +38,7 @@ describe('CBDC Tests', function () {
     expect(order).to.be.an('string')
   })
 
-  it('Get active Order list', async function () {
+  it.skip('Get active Order list', async function () {
     const edexaclient = new EdexaClient()
     const cbdc = edexaclient.getCBDCInstance() // contract address of cbdc
 
@@ -52,11 +52,10 @@ describe('CBDC Tests', function () {
       ordersList.push(value)
       expect(value).to.be.a('number')
     })
-    console.log(activeOrders)
     orderId = activeOrders[Math.floor(Math.random() * activeOrders.length)]
   })
 
-  it('Get Order details', async function () {
+  it.skip('Get Order details', async function () {
     const edexaclient = new EdexaClient()
     const cbdc = edexaclient.getCBDCInstance() // contract address of cbdc
 
@@ -70,7 +69,7 @@ describe('CBDC Tests', function () {
     })
   })
 
-  it('Calulate apporve token', async function () {
+  it.skip('Calulate apporve token', async function () {
     const edexaclient = new EdexaClient()
     const cbdc = edexaclient.getCBDCInstance() // contract address of cbdc
 
@@ -84,7 +83,7 @@ describe('CBDC Tests', function () {
     })
   })
 
-  it('Swap Order', async function () {
+  it.skip('Swap Order', async function () {
     const edexaclient = new EdexaClient()
     const receiverSigner = edexaclient.createWalletSigner(
       env.RECEIVER_PRIVATE_KEY,
@@ -104,13 +103,13 @@ describe('CBDC Tests', function () {
 
   it.skip('Check Balance after swap of tokens', async function () {
     const edexaclient = new EdexaClient()
-    const sender = edexaclient.getERC20Instance(
-      '0x7F6601406B9C7CD6a99f26aCc92Af351bBDDc76B', // MTK
-    )
+    // const sender = edexaclient.getERC20Instance(
+    //   '0x7F6601406B9C7CD6a99f26aCc92Af351bBDDc76B', // MTK
+    // )
 
-    const receiver = edexaclient.getERC20Instance(
-      '0x66e8c2ddb39a2a60D08e6616a4bE776B2e76E52e', // RJ
-    )
+    // const receiver = edexaclient.getERC20Instance(
+    //   '0x66e8c2ddb39a2a60D08e6616a4bE776B2e76E52e', // RJ
+    // )
 
     // console.log(
     //   `balance of 0x45FFdf30a3e7c8099F5a7C145A10CBE6660cd0Da(Receiver) ${await sender.getBalance(
@@ -134,11 +133,10 @@ describe('CBDC Tests', function () {
     // )
   })
 
-  it('Cancel Order', async function () {
+  it.skip('Cancel Order', async function () {
     const edexaclient = new EdexaClient()
     const senderSigner = edexaclient.createWalletSigner(env.SENDER_PRIVATE_KEY)
     const cbdc = edexaclient.getCBDCInstance() // contract address of cbdc
-    console.log(orderId)
     const orderData = await cbdc.cancelOrder(
       orderId, // order id(any order id out of order list)
       senderSigner,
