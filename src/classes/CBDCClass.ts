@@ -78,11 +78,6 @@ export class CBDC {
     signer,
   ) {
     try {
-      // console.log(
-      //   ethers.utils
-      //     .parseUnits('5000'.toString(), ETHER_UNITS.ETHER)
-      //     .toString(),
-      // )
       const tokenToGiveContract = this.getContractInstance(tokenToGive, signer)
       const approveTransaction = await tokenToGiveContract.approve(
         this.address,
@@ -98,8 +93,9 @@ export class CBDC {
     }
   }
 
-  async cancelOrder(orderId: any) {
+  async cancelOrder(orderId: any, signer) {
     try {
+      await this.setContractInstance(signer)
       const tx = await this.contract.cancelOrder(orderId)
       await tx.wait()
       return tx.hash
