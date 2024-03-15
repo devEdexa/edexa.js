@@ -4,10 +4,7 @@ export enum Standard {
   ERC1155,
 }
 
-export const RPC_URL =
-  'https://rpc.ankr.com/polygon_mumbai' ||
-  'https://rpc-mumbai.maticvigil.com' ||
-  'https://testnet.edexa.com/rpc'
+export const RPC_URL = 'https://testnet.edexa.com/rpc'
 
 export const ETHER_UNITS = {
   ETHER: 'ether',
