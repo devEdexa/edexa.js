@@ -20,7 +20,7 @@ import erc20Abi from '../abi/ERC20-Abi.json'
 import erc721Abi from '../abi/ERC721-Abi.json'
 import erc1155Abi from '../abi/ERC1155-Abi.json'
 import stableCoinAbi from '../abi/StableCoin.json'
-import ensAbi from '../abi/ENS.json'
+import publicResolver from '../abi/publicResolver.json'
 import { RPC_URL } from '../constants'
 
 export class EdexaClient {
@@ -148,29 +148,45 @@ export class EdexaClient {
     try {
       // Check if the input is a valid Ethereum address
       if (ethers.utils.isAddress(input)) {
-        return input
+       
+        const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
+        const reverseName = `${input.slice(2)}.addr.reverse`;
+        const node = ethers.utils.namehash(reverseName);
+        const resolverContract_ = new ethers.Contract('0xEF1db68FaDfdD398886EE73Cbc34918Be51Ae304', publicResolver.abi, provider);
+        const ensName_ = await resolverContract_.name(node);
+        if (ensName_) {
+          return ensName_;
+        } else {
+          return input;
+        }
+        
       } else {
+        return "input is not an address";
+        
+      }
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`)
+    }
+  }
+  async resolveAddress(input: string) {                  //name string input
+    try {
+      // Check if the input is a valid Ethereum address
+      if (input.endsWith(".edx") && input.split(".")[0].length >= 4) {
         // If it's not a valid address, try to resolve it through ENS
         const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
-        const ens = new ethers.Contract(
-          '0x0cc23341aacFc90B1582d965943d1f10D94638Cf',
-          ensAbi,
-          provider,
-        )
-
-        // Resolve the ENS domain to an Ethereum address
-        const detailsObject = await ens.getDomainInfo(input)
-
-        if (detailsObject) {
-          if (
-            detailsObject.resolver ==
-            '0x0000000000000000000000000000000000000000'
-          )
-            throw new Error(`ENS Not Registered for ${input}`)
-          else return detailsObject.resolver
+        const node = ethers.utils.namehash(input);
+        const resolverContract_ = new ethers.Contract('0xEF1db68FaDfdD398886EE73Cbc34918Be51Ae304', publicResolver.abi, provider);
+        let owner = await resolverContract_['addr(bytes32)'](node);
+   
+        if (owner !== ethers.constants.AddressZero) {
+          return owner;
         } else {
-          throw new Error(`ENS resolution failed for ${input}`)
+          return "no address found for this ENS name";
         }
+        
+      } else {
+        return "wrong ens name format. Min 4 char & name must end with '.edx' example: myname.edx"; 
+        
       }
     } catch (error) {
       throw new Error(`Error: ${error.message}`)
