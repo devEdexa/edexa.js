@@ -144,7 +144,7 @@ export class EdexaClient {
     return new StableCoin(address, rpc)
   }
 
-  async resolveENSOrReturnAddress(input: string) {
+  async resolveAddr(input: string) {
     try {
       // Check if the input is a valid Ethereum address
       if (ethers.utils.isAddress(input)) {
@@ -157,7 +157,7 @@ export class EdexaClient {
         if (ensName_) {
           return ensName_;
         } else {
-          return input;
+          return "address is not associated with any ENS name";
         }
         
       } else {
@@ -168,7 +168,7 @@ export class EdexaClient {
       throw new Error(`Error: ${error.message}`)
     }
   }
-  async resolveAddress(input: string) {                  //name string input
+  async resolveName(input: string) {                  //name string input
     try {
       // Check if the input is a valid Ethereum address
       if (input.endsWith(".edx") && input.split(".")[0].length >= 4) {
@@ -181,11 +181,12 @@ export class EdexaClient {
         if (owner !== ethers.constants.AddressZero) {
           return owner;
         } else {
-          return "no address found for this ENS name";
+          return "This ENS name is not registered";
         }
         
       } else {
-        return "wrong ens name format. Min 4 char & name must end with '.edx' example: myname.edx"; 
+        throw new Error(`Error: Wrong ens name format. Min 4 char & name must end with '.edx' example: myname.edx`)
+        
         
       }
     } catch (error) {
