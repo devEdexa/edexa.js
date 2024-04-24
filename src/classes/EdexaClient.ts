@@ -21,7 +21,7 @@ import erc721Abi from '../abi/ERC721-Abi.json'
 import erc1155Abi from '../abi/ERC1155-Abi.json'
 import stableCoinAbi from '../abi/StableCoin.json'
 import publicResolver from '../abi/publicResolver.json'
-import { RPC_URL,resolverAddress } from '../constants'
+import { RPC_URL,resolverAddress,TLD } from '../constants'
 
 
 export class EdexaClient {
@@ -172,7 +172,7 @@ export class EdexaClient {
   async resolveName(input: string) {                  //name string input
     try {
      
-      if (input.endsWith(".edx") && input.split(".")[0].length >= 4) {
+      if (input.endsWith(TLD) && input.split(".")[0].length >= 4) {
         // If it's a valid ens name format trying to resolve it
         const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
         const node = ethers.utils.namehash(input);
