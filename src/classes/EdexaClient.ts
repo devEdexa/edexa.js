@@ -21,7 +21,8 @@ import erc721Abi from '../abi/ERC721-Abi.json'
 import erc1155Abi from '../abi/ERC1155-Abi.json'
 import stableCoinAbi from '../abi/StableCoin.json'
 import publicResolver from '../abi/publicResolver.json'
-import { RPC_URL } from '../constants'
+import { RPC_URL,resolverAddress } from '../constants'
+
 
 export class EdexaClient {
   //signers
@@ -152,7 +153,7 @@ export class EdexaClient {
         const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
         const reverseName = `${input.slice(2)}.addr.reverse`;
         const node = ethers.utils.namehash(reverseName);
-        const resolverContract_ = new ethers.Contract('0xEF1db68FaDfdD398886EE73Cbc34918Be51Ae304', publicResolver.abi, provider);
+        const resolverContract_ = new ethers.Contract(resolverAddress, publicResolver.abi, provider);
         const ensName_ = await resolverContract_.name(node);
         if (ensName_) {
           return ensName_;
@@ -172,10 +173,10 @@ export class EdexaClient {
     try {
       // Check if the input is a valid Ethereum address
       if (input.endsWith(".edx") && input.split(".")[0].length >= 4) {
-        // If it's not a valid address, try to resolve it through ENS
+        // If it's a valid address, try to resolve it through ENS
         const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
         const node = ethers.utils.namehash(input);
-        const resolverContract_ = new ethers.Contract('0xEF1db68FaDfdD398886EE73Cbc34918Be51Ae304', publicResolver.abi, provider);
+        const resolverContract_ = new ethers.Contract(resolverAddress, publicResolver.abi, provider);
         let owner = await resolverContract_['addr(bytes32)'](node);
    
         if (owner !== ethers.constants.AddressZero) {
