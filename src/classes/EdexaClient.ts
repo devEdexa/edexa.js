@@ -145,7 +145,7 @@ export class EdexaClient {
     return new StableCoin(address, rpc)
   }
 
-  async resolveAddr(input: string) {
+  async resolveAddr(input: string) {                //0x.. adress string input
     try {
       // Check if the input is a valid Ethereum address
       if (ethers.utils.isAddress(input)) {
@@ -171,9 +171,9 @@ export class EdexaClient {
   }
   async resolveName(input: string) {                  //name string input
     try {
-      // Check if the input is a valid Ethereum address
+     
       if (input.endsWith(".edx") && input.split(".")[0].length >= 4) {
-        // If it's a valid address, try to resolve it through ENS
+        // If it's a valid ens name format trying to resolve it
         const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
         const node = ethers.utils.namehash(input);
         const resolverContract_ = new ethers.Contract(resolverAddress, publicResolver.abi, provider);
@@ -186,9 +186,8 @@ export class EdexaClient {
         }
         
       } else {
-        throw new Error(`Error: Wrong ens name format. Min 4 char & name must end with '.edx' example: myname.edx`)
-        
-        
+        return(`Wrong ens name format. Min 4 char & Name must end with '.edx' example: myname.edx`)
+      
       }
     } catch (error) {
       throw new Error(`Error: ${error.message}`)
